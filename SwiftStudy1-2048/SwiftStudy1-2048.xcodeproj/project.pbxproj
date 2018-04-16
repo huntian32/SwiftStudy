@@ -14,6 +14,8 @@
 		FB06695520848A5C007F8E0B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB06695320848A5C007F8E0B /* LaunchScreen.storyboard */; };
 		FB06696020848A5D007F8E0B /* SwiftStudy1_2048Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06695F20848A5D007F8E0B /* SwiftStudy1_2048Tests.swift */; };
 		FB06696B20848A5D007F8E0B /* SwiftStudy1_2048UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06696A20848A5D007F8E0B /* SwiftStudy1_2048UITests.swift */; };
+		FB06697920848B0A007F8E0B /* NumbertailGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06697820848B0A007F8E0B /* NumbertailGameController.swift */; };
+		FB06697B208490DB007F8E0B /* GamebordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06697A208490DB007F8E0B /* GamebordView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		FB06696620848A5D007F8E0B /* SwiftStudy1-2048UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwiftStudy1-2048UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB06696A20848A5D007F8E0B /* SwiftStudy1_2048UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftStudy1_2048UITests.swift; sourceTree = "<group>"; };
 		FB06696C20848A5D007F8E0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB06697820848B0A007F8E0B /* NumbertailGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbertailGameController.swift; sourceTree = "<group>"; };
+		FB06697A208490DB007F8E0B /* GamebordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamebordView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +103,9 @@
 			children = (
 				FB06694A20848A58007F8E0B /* AppDelegate.swift */,
 				FB06694C20848A58007F8E0B /* ViewController.swift */,
+				FB06697A208490DB007F8E0B /* GamebordView.swift */,
 				FB06694E20848A58007F8E0B /* Main.storyboard */,
+				FB06697820848B0A007F8E0B /* NumbertailGameController.swift */,
 				FB06695120848A5C007F8E0B /* Assets.xcassets */,
 				FB06695320848A5C007F8E0B /* LaunchScreen.storyboard */,
 				FB06695620848A5C007F8E0B /* Info.plist */,
@@ -257,7 +263,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB06694D20848A58007F8E0B /* ViewController.swift in Sources */,
+				FB06697B208490DB007F8E0B /* GamebordView.swift in Sources */,
 				FB06694B20848A58007F8E0B /* AppDelegate.swift in Sources */,
+				FB06697920848B0A007F8E0B /* NumbertailGameController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
