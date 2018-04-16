@@ -6,7 +6,6 @@
 //  Copyright © 2018年 huntian. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class NumbertailGameController : UIViewController {
@@ -23,10 +22,11 @@ class NumbertailGameController : UIViewController {
         view.backgroundColor = UIColor(red : 0xE6/255, green : 0xE2/255, blue : 0xD4/255, alpha : 1)
     }
     
-      override func viewDidLoad() {
-        self.viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setupGame()
     }
+    
     
     func setupGame(){
         let viewWidth = view.bounds.size.width
@@ -40,10 +40,13 @@ class NumbertailGameController : UIViewController {
         //获取游戏区域左上角那个点的y坐标 (应为：当前面板总高度减去所有视图的总高度除以2然后在加上在游戏区块之前的视图的总高度，就是游戏区域的y坐标值)
         func yposition2Center(order : Int , views : [UIView]) -> CGFloat {
             assert(views.count > 0)
-            let totalViewHeigth = CGFloat(views.count - 1)*viewPadding +
-                views.map({$0.bounds.size.height}).reduce ( verticalViewOffset , combine: {$0 + $1})
+            var h:CGFloat = 0.0
+            for view in views {
+                h = h + view.bounds.size.height
+            }
+            let totalViewHeigth = CGFloat(views.count - 1)*viewPadding + h
+//            views.map({$0.bounds.size.height}).reduce(verticalViewOffset , combine: {$0 + $1})
             let firstY = 0.5*(viewHeight - totalViewHeigth)
-            
             var acc : CGFloat = 0
             for i in 0..<order{
                 acc += viewPadding + views[i].bounds.size.height
@@ -57,7 +60,7 @@ class NumbertailGameController : UIViewController {
             demension : demension,
             titleWidth: width,
             titlePadding: thinPadding,
-            backgroundColor:  UIColor(red : 0x90/255, green : 0x8D/255, blue : 0x80/255, alpha : 1),
+            backgroundColor:UIColor(red : 0x90/255, green : 0x8D/255, blue : 0x80/255, alpha : 1),
             foregroundColor:UIColor(red : 0xF9/255, green : 0xF9/255, blue : 0xE3/255, alpha : 0.5)
         )
         //现在面板中所有的视图对象，目前只有游戏区块，后续加入计分板
