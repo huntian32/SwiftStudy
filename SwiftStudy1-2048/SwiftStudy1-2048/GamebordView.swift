@@ -12,7 +12,7 @@ class GamebordView : UIView {
     var tileWidth : CGFloat  //每个小块的宽度
     var tilePadding : CGFloat  //每个小块间的间距
     let provider = AppearanceProvider()
-    var tiles : Dictionary<IndexPath , TileView>
+    var tiles : Dictionary<NSIndexPath , TileView>
     let tileExpandTime: TimeInterval = 0.18
     let tileContractTime: TimeInterval = 0.08
     let tilePopDelay: TimeInterval = 0.05
@@ -20,13 +20,17 @@ class GamebordView : UIView {
     let tilePopMaxScale: CGFloat = 1.1
     
     
+    
     //初始化，其中backgroundColor是游戏区块的背景色，foregroundColor是小块的颜色
     init(demension d : Int, titleWidth width : CGFloat, titlePadding padding : CGFloat, backgroundColor : UIColor, foregroundColor : UIColor ) {
+        
+        self.tiles = Dictionary<NSIndexPath, TileView>()
+        
         demension = d
         tileWidth = width
         tilePadding = padding
         let totalWidth = tilePadding + CGFloat(demension)*(tilePadding + tileWidth)
-        super.init(frame : CGRect(x:0 , y:0 , width: totalWidth , height: totalWidth))
+        super.init(frame: CGRect(x: 0, y: 0, width: totalWidth, height: totalWidth))
         self.backgroundColor = backgroundColor
         }
     
@@ -59,18 +63,20 @@ class GamebordView : UIView {
         addSubview(tileView)
         bringSubview(toFront: tileView)
         
-        tiles [IndexPath(Row : row , Section:  col)] = tileView
+        //tiles [IndexPath(Row : row , Section:  col)] = tileView
 //        tiles[NSIndexPath(forRow : row , inSection:  col)] = tileView
+        tiles[NSIndexPath(row : row , section:  col)] = tileView
+        
         //这里就是一些动画效果，如果有兴趣可以研究下，不影响功能
-//        UIView.animate(withDuration: tileExpandTime, delay: tilePopDelay, options: UIViewAnimationOptions.TransitionNone,
-//                                   animations: {
-//                                    tileView.layer.setAffineTransform(CGAffineTransform(scaleX: self.tilePopMaxScale, y: self.tilePopMaxScale))
-//        },
-//                                   completion: { finished in
-//                                    UIView.animate(withDuration: self.tileContractTime, animations: { () -> Void in
-//                                        tileView.layer.setAffineTransform(CGAffineTransformIdentity)
-//                                    })
-//        })
+        UIView.animate(withDuration: tileExpandTime, delay: tilePopDelay, options: UIViewAnimationOptions.transitionFlipFromTop,
+                                   animations: {
+                                    tileView.layer.setAffineTransform(CGAffineTransform(scaleX: self.tilePopMaxScale, y: self.tilePopMaxScale))
+        },
+                                   completion: { finished in
+                                    UIView.animate(withDuration: self.tileContractTime, animations: { () -> Void in
+                                        tileView.layer.setAffineTransform(CGAffineTransform.identity)
+                                    })
+        })
     }
     
     func positionIsValied(position : (Int , Int)) -> Bool{

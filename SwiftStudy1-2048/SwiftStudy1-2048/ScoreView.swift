@@ -23,7 +23,6 @@ class ScoreView : UIView , ScoreProtocol{
     }
     
     let defaultFrame = CGRect(x:0, y:0, width:140, height:40)
-    
     init(backgroundColor bgColor : UIColor, textColor tColor : UIColor , font : UIFont){
         lable = UILabel(frame : defaultFrame)
         lable.textAlignment = NSTextAlignment.center
