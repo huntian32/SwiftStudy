@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class NumbertailGameController : UIViewController {
     var demension : Int  //2048游戏中每行每列含有多少个块
     var threshold : Int  //最高分数，判断输赢时使用，
@@ -15,6 +16,8 @@ class NumbertailGameController : UIViewController {
     let thinPadding: CGFloat = 3.0  //游戏区里面小块间的间距
     let viewPadding: CGFloat = 10.0  //计分板和游戏区块的间距
     let verticalViewOffset: CGFloat = 0.0  //一个初始化属性，后面会有地方用到
+    var bord : GamebordView?
+    
     init(demension d : Int , threshold t : Int) {
         demension = d < 2 ? 2 : d
         threshold = t < 8 ? 8 : t
@@ -25,6 +28,7 @@ class NumbertailGameController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGame()
+        
     }
     
     
@@ -63,16 +67,44 @@ class NumbertailGameController : UIViewController {
             backgroundColor:UIColor(red : 0x90/255, green : 0x8D/255, blue : 0x80/255, alpha : 1),
             foregroundColor:UIColor(red : 0xF9/255, green : 0xF9/255, blue : 0xE3/255, alpha : 0.5)
         )
+        
+        //初始化一个ScoreView
+        let scoreView = ScoreView(
+            backgroundColor:  UIColor(red : 0xA2/255, green : 0x94/255, blue : 0x5E/255, alpha : 1),
+            textColor: UIColor(red : 0xF3/255, green : 0xF1/255, blue : 0x1A/255, alpha : 0.5),
+            font: UIFont(name: "HelveticaNeue-Bold", size: 16.0) ?? UIFont.systemFont(ofSize: 16.0)
+        )
+        
         //现在面板中所有的视图对象，目前只有游戏区块，后续加入计分板
-        let views = [gamebord]
+        let views = [scoreView , gamebord]
         //设置游戏区块在整个面板中的的绝对位置，即左上角第一个点
         var f = gamebord.frame
         f.origin.x = xposition2Center(view: gamebord)
         f.origin.y = yposition2Center(order: 0, views: views)
+        let backgroundColor = UIColor(red : 0x90/255, green : 0x8D/255, blue : 0x80/255, alpha : 1),
+        foregroundColor = UIColor(red : 0xF9/255, green : 0xF9/255, blue : 0xE3/255, alpha : 0.5)
+        gamebord.setColor(backgroundColor: backgroundColor, foregroundColor: foregroundColor)
         gamebord.frame = f
-        //将游戏对象加入当前面板中
+        
+        //定位记分板在主面板中左上角的绝对位置
+        var f1 = scoreView.frame
+        f1.origin.x = xposition2Center(view: scoreView)
+        f1.origin.y = yposition2Center(order: 0, views: views) - 50
+        scoreView.frame = f1
+        //调用其自身方法来初始化一个分数
+        scoreView.scoreChanged(newScore: 19870606)
+         //将游戏对象加入当前面板中
         view.addSubview(gamebord)
+        view.addSubview(scoreView)
 
+        gamebord.insertTile(pos: (3,1) , value : 2)
+        gamebord.insertTile(pos: (1,3) , value : 2)
+    }
+    
+    func insertTile(pos : (Int , Int) , value : Int){
+        assert(bord != nil)
+        let b = bord!
+        b.insertTile(pos: pos, value: value)
     }
     
     required init?(coder aDecoder: NSCoder) {
