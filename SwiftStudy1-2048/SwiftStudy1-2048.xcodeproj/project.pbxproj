@@ -7,20 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FB06694B20848A58007F8E0B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06694A20848A58007F8E0B /* AppDelegate.swift */; };
-		FB06694D20848A58007F8E0B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06694C20848A58007F8E0B /* ViewController.swift */; };
 		FB06695020848A58007F8E0B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB06694E20848A58007F8E0B /* Main.storyboard */; };
 		FB06695220848A5C007F8E0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB06695120848A5C007F8E0B /* Assets.xcassets */; };
 		FB06695520848A5C007F8E0B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB06695320848A5C007F8E0B /* LaunchScreen.storyboard */; };
 		FB06696020848A5D007F8E0B /* SwiftStudy1_2048Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06695F20848A5D007F8E0B /* SwiftStudy1_2048Tests.swift */; };
 		FB06696B20848A5D007F8E0B /* SwiftStudy1_2048UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06696A20848A5D007F8E0B /* SwiftStudy1_2048UITests.swift */; };
-		FB06697920848B0A007F8E0B /* NumbertailGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06697820848B0A007F8E0B /* NumbertailGameController.swift */; };
-		FB06697B208490DB007F8E0B /* GamebordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06697A208490DB007F8E0B /* GamebordView.swift */; };
-		FB5BC5892085D84C00030F58 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5BC5882085D84C00030F58 /* ScoreView.swift */; };
-		FB5BC58B2085DC8600030F58 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5BC58A2085DC8600030F58 /* TileView.swift */; };
-		FB5BC58D2085DDB700030F58 /* ApperanceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5BC58C2085DDB700030F58 /* ApperanceProvider.swift */; };
-		FB623B9320871DA1000D8796 /* BaseModle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB623B9220871DA1000D8796 /* BaseModle.swift */; };
-		FB623B9520871E60000D8796 /* GameModle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB623B9420871E60000D8796 /* GameModle.swift */; };
+		FB2E6D1F208768460024A136 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06694A20848A58007F8E0B /* AppDelegate.swift */; };
+		FB2E6D20208768490024A136 /* GamebordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06697A208490DB007F8E0B /* GamebordView.swift */; };
+		FB2E6D212087684E0024A136 /* GameModle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB623B9420871E60000D8796 /* GameModle.swift */; };
+		FB2E6D22208768510024A136 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5BC5882085D84C00030F58 /* ScoreView.swift */; };
+		FB2E6D232087685A0024A136 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06694C20848A58007F8E0B /* ViewController.swift */; };
+		FB2E6D242087685D0024A136 /* BaseModle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB623B9220871DA1000D8796 /* BaseModle.swift */; };
+		FB2E6D25208768600024A136 /* NumbertailGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06697820848B0A007F8E0B /* NumbertailGameController.swift */; };
+		FB2E6D26208768630024A136 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5BC58A2085DC8600030F58 /* TileView.swift */; };
+		FB2E6D27208768660024A136 /* ApperanceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5BC58C2085DDB700030F58 /* ApperanceProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -277,15 +277,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB06694D20848A58007F8E0B /* ViewController.swift in Sources */,
-				FB06697B208490DB007F8E0B /* GamebordView.swift in Sources */,
-				FB06694B20848A58007F8E0B /* AppDelegate.swift in Sources */,
-				FB5BC58D2085DDB700030F58 /* ApperanceProvider.swift in Sources */,
-				FB06697920848B0A007F8E0B /* NumbertailGameController.swift in Sources */,
-				FB5BC58B2085DC8600030F58 /* TileView.swift in Sources */,
-				FB623B9520871E60000D8796 /* GameModle.swift in Sources */,
-				FB623B9320871DA1000D8796 /* BaseModle.swift in Sources */,
-				FB5BC5892085D84C00030F58 /* ScoreView.swift in Sources */,
+				FB2E6D27208768660024A136 /* ApperanceProvider.swift in Sources */,
+				FB2E6D26208768630024A136 /* TileView.swift in Sources */,
+				FB2E6D25208768600024A136 /* NumbertailGameController.swift in Sources */,
+				FB2E6D242087685D0024A136 /* BaseModle.swift in Sources */,
+				FB2E6D232087685A0024A136 /* ViewController.swift in Sources */,
+				FB2E6D22208768510024A136 /* ScoreView.swift in Sources */,
+				FB2E6D212087684E0024A136 /* GameModle.swift in Sources */,
+				FB2E6D20208768490024A136 /* GamebordView.swift in Sources */,
+				FB2E6D1F208768460024A136 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

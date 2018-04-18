@@ -14,78 +14,92 @@ protocol GameModelProtocol : class {
     func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int)
 }
 
-class NumbertailGameController : UIViewController {
-    var demension : Int  //2048游戏中每行每列含有多少个块
+class NumbertailGameController : UIViewController , GameModelProtocol{
+    var dimension : Int  //2048游戏中每行每列含有多少个块
     var threshold : Int  //最高分数，判断输赢时使用，
     let boardWidth: CGFloat = 260.0  //游戏区域的长度和高度
     let thinPadding: CGFloat = 3.0  //游戏区里面小块间的间距
     let viewPadding: CGFloat = 10.0  //计分板和游戏区块的间距
     let verticalViewOffset: CGFloat = 0.0  //一个初始化属性，后面会有地方用到
     var bord : GamebordView?
+    var scoreV : ScoreView?
     var gameModle : GameModle?
     
-    init(demension d : Int , threshold t : Int) {
-        demension = d < 2 ? 2 : d
+    init(dimension d : Int , threshold t : Int) {
+        dimension = d < 2 ? 2 : d
         threshold = t < 8 ? 8 : t
         super.init(nibName: nil, bundle: nil)
         view.backgroundColor = UIColor(red : 0xE6/255, green : 0xE2/255, blue : 0xD4/255, alpha : 1)
-        gameModle = GameModle(dimension: demension , threshold: threshold , delegate: self as! GameModelProtocol )
+
+//        bord = GamebordView(
+//            demension : d,
+//            titleWidth: 61.25,
+//            titlePadding: thinPadding,
+//            backgroundColor:UIColor(red : 0x90/255, green : 0x8D/255, blue : 0x80/255, alpha : 1),
+//            foregroundColor:UIColor(red : 0xF9/255, green : 0xF9/255, blue : 0xE3/255, alpha : 0.5)
+//        )
+
+        gameModle = GameModle(dimension: dimension, threshold: threshold, delegate: self)
+
+
         setupSwipeConttoller()
+        
+        
     }
     
     //注册监听器，监听当前视图里的手指滑动操作，上下左右分别对应下面的四个方法
     func setupSwipeConttoller() {
-        let upSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.upCommand(_:)))
+        let upSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.upCommand(r:)))
         upSwipe.numberOfTouchesRequired = 1
-        upSwipe.direction = UISwipeGestureRecognizerDirection.Up
+        upSwipe.direction = UISwipeGestureRecognizerDirection.up
         view.addGestureRecognizer(upSwipe)
         
-        let downSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.downCommand(_:)))
+        let downSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.downCommand(r:)))
         downSwipe.numberOfTouchesRequired = 1
-        downSwipe.direction = UISwipeGestureRecognizerDirection.Down
+        downSwipe.direction = UISwipeGestureRecognizerDirection.down
         view.addGestureRecognizer(downSwipe)
         
-        let leftSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.leftCommand(_:)))
+        let leftSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.leftCommand(r:)))
         leftSwipe.numberOfTouchesRequired = 1
-        leftSwipe.direction = UISwipeGestureRecognizerDirection.Left
+        leftSwipe.direction = UISwipeGestureRecognizerDirection.left
         view.addGestureRecognizer(leftSwipe)
         
-        let rightSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.rightCommand(_:)))
+        let rightSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.rightCommand(r:)))
         rightSwipe.numberOfTouchesRequired = 1
-        rightSwipe.direction = UISwipeGestureRecognizerDirection.Right
+        rightSwipe.direction = UISwipeGestureRecognizerDirection.right
         view.addGestureRecognizer(rightSwipe)
     }
     //向上滑动的方法，调用queenMove，传入MoveDirection.UP
-    func upCommand(r : UIGestureRecognizer) {
+    @objc func upCommand(r : UIGestureRecognizer) {
         let m = gameModle!
-        m.queenMove(MoveDirection.UP , completion: { (changed : Bool) -> () in
+        m.queenMove(direction: MoveDirection.UP , completion: { (changed : Bool) -> () in
             if  changed {
                 self.followUp()
             }
         })
     }
     //向下滑动的方法，调用queenMove，传入MoveDirection.DOWN
-    func downCommand(r : UIGestureRecognizer) {
+    @objc func downCommand(r : UIGestureRecognizer) {
         let m = gameModle!
-        m.queenMove(MoveDirection.DOWN , completion: { (changed : Bool) -> () in
+        m.queenMove(direction: MoveDirection.DOWN , completion: { (changed : Bool) -> () in
             if  changed {
                 self.followUp()
             }
         })
     }
     //向左滑动的方法，调用queenMove，传入MoveDirection.LEFT
-    func leftCommand(r : UIGestureRecognizer) {
+    @objc func leftCommand(r : UIGestureRecognizer) {
         let m = gameModle!
-        m.queenMove(MoveDirection.LEFT , completion: { (changed : Bool) -> () in
+        m.queenMove(direction: MoveDirection.LEFT , completion: { (changed : Bool) -> () in
             if  changed {
                 self.followUp()
             }
         })
     }
     //向右滑动的方法，调用queenMove，传入MoveDirection.RIGHT
-    func rightCommand(r : UIGestureRecognizer) {
+    @objc func rightCommand(r : UIGestureRecognizer) {
         let m = gameModle!
-        m.queenMove(MoveDirection.RIGHT , completion: { (changed : Bool) -> () in
+        m.queenMove(direction: MoveDirection.RIGHT , completion: { (changed : Bool) -> () in
             if  changed {
                 self.followUp()
             }
@@ -126,7 +140,7 @@ class NumbertailGameController : UIViewController {
     
     func reset() {
         assert(bord != nil && gameModle != nil)
-        let b = bord!
+        //let b = bord!
         let m = gameModle!
        // b.reset()
        // m.reset()
@@ -168,10 +182,10 @@ class NumbertailGameController : UIViewController {
             return acc + firstY
         }
         //获取具体每一个区块的边长，即：(游戏区块长度-间隙总和)/块数
-        let width = (boardWidth - thinPadding*CGFloat(demension + 1))/CGFloat(demension)
+        let width = (boardWidth - thinPadding*CGFloat(dimension + 1))/CGFloat(dimension)
         //初始化一个游戏区块对象
         let gamebord = GamebordView(
-            demension : demension,
+            dimension : dimension,
             titleWidth: width,
             titlePadding: thinPadding,
             backgroundColor:UIColor(red : 0x90/255, green : 0x8D/255, blue : 0x80/255, alpha : 1),
@@ -207,8 +221,10 @@ class NumbertailGameController : UIViewController {
         view.addSubview(gamebord)
         view.addSubview(scoreView)
 
-        gamebord.insertTile(pos: (3,1) , value : 2)
-        gamebord.insertTile(pos: (1,3) , value : 2)
+        gamebord.insertTile(position: (3,1) , value : 2)
+        gamebord.insertTile(position: (1,3) , value : 2)
+        
+        scoreView.scoreChanged(newScore: 0)
         
         assert(gameModle != nil)
         let modle = gameModle!
@@ -216,13 +232,29 @@ class NumbertailGameController : UIViewController {
         modle.insertRandomPositoinTile(value: 2)
         modle.insertRandomPositoinTile(value: 2)
     }
-    
-    func insertTile(pos : (Int , Int) , value : Int){
-        assert(bord != nil)
-        let b = bord!
-        b.insertTile(pos: pos, value: value)
+    func changeScore(score : Int){
+        assert(scoreV != nil)
+        let s =  scoreV!
+        s.scoreChanged(newScore: score)
     }
     
+    func insertTile(position pos : (Int , Int) , value : Int){
+        assert(bord != nil)
+        let b = bord!
+        b.insertTile(position: pos, value: value)
+    }
+    
+    func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int) {
+        assert(bord != nil)
+        let b = bord!
+        b.moveOneTile(from: from, to: to, value: value)
+    }
+    
+    func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int) {
+        assert(bord != nil)
+        let b = bord!
+        b.moveTwoTiles(from: from, to: to, value: value)
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

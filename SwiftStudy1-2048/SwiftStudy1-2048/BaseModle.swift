@@ -12,9 +12,44 @@ enum TileEnum {
     case Empty
     case Tile(Int)
 }
+
 enum MoveOrder {
     case SINGLEMOVEORDER(source : Int , destination : Int , value : Int , merged : Bool)
     case DOUBLEMOVEORDER(firstSource : Int , secondSource : Int , destination : Int , value : Int)
+}
+
+//用户操作---上下左右
+enum MoveDirection {
+    case UP
+    case DOWN
+    case LEFT
+    case RIGHT
+}
+
+//用于存放数字块的移动状态，是否需要移动以及两个一块合并并移动等，关键数据是数组中位置以及最新的数字块的值
+enum TileAction{
+    case NOACTION(source : Int , value : Int)
+    case MOVE(source : Int , value : Int)
+    case SINGLECOMBINE(source : Int , value : Int)
+    case DOUBLECOMBINE(firstSource : Int , secondSource : Int , value : Int)
+    
+    func getValue() -> Int {
+        switch self {
+        case let .NOACTION(_, value) : return value
+        case let .MOVE(_, value) : return value
+        case let .SINGLECOMBINE(_, value) : return value
+        case let .DOUBLECOMBINE(_, _, value) : return value
+        }
+    }
+    
+    func getSource() -> Int {
+        switch self {
+        case let .NOACTION(source , _) : return source
+        case let .MOVE(source , _) : return source
+        case let .SINGLECOMBINE(source , _) : return source
+        case let .DOUBLECOMBINE(source , _ , _) : return source
+        }
+    }
 }
 
 struct SequenceGamebord<T> {
@@ -45,36 +80,5 @@ struct SequenceGamebord<T> {
             }
         }
     }
-    
-    //用户操作---上下左右
-    enum MoveDirection {
-        case UP,DOWN,LEFT,RIGHT
-    }
-    //用于存放数字块的移动状态，是否需要移动以及两个一块合并并移动等，关键数据是数组中位置以及最新的数字块的值
-    enum TileAction{
-        case NOACTION(source : Int , value : Int)
-        case MOVE(source : Int , value : Int)
-        case SINGLECOMBINE(source : Int , value : Int)
-        case DOUBLECOMBINE(firstSource : Int , secondSource : Int , value : Int)
-        
-        func getValue() -> Int {
-            switch self {
-            case let .NOACTION(_, value) : return value
-            case let .MOVE(_, value) : return value
-            case let .SINGLECOMBINE(_, value) : return value
-            case let .DOUBLECOMBINE(_, _, value) : return value
-            }
-        }
-        
-        func getSource() -> Int {
-            switch self {
-            case let .NOACTION(source , _) : return source
-            case let .MOVE(source , _) : return source
-            case let .SINGLECOMBINE(source , _) : return source
-            case let .DOUBLECOMBINE(source , _ , _) : return source
-            }
-        }
-    }
     //最终的移动数据封装，标注了所有需移动的块的原位置及新位置，以及块的最新值
-   
 }

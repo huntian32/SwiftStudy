@@ -16,7 +16,10 @@ class ViewController: UIViewController {
     }
 
     @IBAction func setupGame(_ sender: UIButton) {
-        let game = NumbertailGameController (demension: 4, threshold: 2048)
+//        let game = NumbertailGameController (demension: 4, threshold: 2048)
+        
+        let game = NumbertailGameController.init(dimension: 4, threshold: 2048)
+        
         self.present(game, animated: true , completion: nil)
     }
     override func didReceiveMemoryWarning() {

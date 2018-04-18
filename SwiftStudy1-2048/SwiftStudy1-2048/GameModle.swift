@@ -11,6 +11,8 @@ import UIKit
 
 class GameModle : NSObject {
     
+    
+    
     let dimension : Int
     let threshold : Int
     //存放数字块状态信息
@@ -24,17 +26,40 @@ class GameModle : NSObject {
         }
     }
     //初始化一个都存的Empty的SequenceGamebord<TileEnum>
-    init(dimension : Int , threshold : Int , delegate : GameModelProtocol) {
+    init(dimension: Int , threshold: Int , delegate : GameModelProtocol) {
         self.dimension = dimension
         self.threshold = threshold
         self.delegate = delegate
         gamebord = SequenceGamebord(demision: dimension , initValue: TileEnum.Empty)
         super.init()
     }
+   
+    func getEmptyPosition() -> [(Int , Int)]  {
+        var emptyArrys : [(Int , Int)] = []
+        for i in 0..<dimension {
+            for j in 0..<dimension {
+                if case .Empty = gamebord[i , j] {
+                    emptyArrys.append((i , j))
+                }
+            }
+        }
+        return emptyArrys
+    }
+    
+    func insertRandomPositoinTile(value : Int)  {
+        let emptyArrays = getEmptyPosition()
+        if emptyArrays.isEmpty {
+            return
+        }
+        let randomPos = Int(arc4random_uniform(UInt32(emptyArrays.count - 1)))
+        let (x , y) = emptyArrays[randomPos]
+        gamebord[x, y] = TileEnum.Tile(value)
+        delegate.insertTile(position: (x , y), value: value)
+    }
     
     //提供给主控制器调用，入参为移动方向和一个需要一个是否移动过的Bool值为入参的闭包
     func queenMove(direction : MoveDirection , completion : (Bool) -> ()){
-        let changed = performMove(direction)
+        let changed = performMove(direction: direction)
         completion(changed)
         
     }
@@ -100,136 +125,17 @@ class GameModle : NSObject {
         return movedFlag
     }
     
-    //从from位置移动一个块到to位置，并赋予新的值value
-    func moveOneTiles(from : (Int , Int)  , to : (Int , Int) , value : Int) {
-        let (fx , fy) = from
-        let (tx , ty) = to
-        let fromKey = IndexPath(row: fx , section: fy)
-        let toKey = IndexPath(row: tx, section: ty)
-        //取出from位置和to位置的数字块
-        guard let tile = tiles[fromKey] else{
-            assert(false, "not exists tile")
-        }
-        let endTile = tiles[toKey]
-        //将from位置的数字块的位置定到to位置
-        var changeFrame = tile.frame
-        changeFrame.origin.x = tilePadding + CGFloat(tx)*(tilePadding + tileWidth)
-        changeFrame.origin.y = tilePadding + CGFloat(ty)*(tilePadding + tileWidth)
-        
-        tiles.removeValueForKey(fromKey)
-        tiles[toKey] = tile
-        
-        // 动画以及给新位置的数字块赋值
-        let shouldPop = endTile != nil
-        UIView.animateWithDuration(perSquareSlideDuration,
-                                   delay: 0.0,
-                                   options: UIViewAnimationOptions.BeginFromCurrentState,
-                                   animations: {
-                                    tile.frame = changeFrame
-        },
-                                   completion: { (finished: Bool) -> Void in
-                                    //对新位置的数字块赋值
-                                    tile.value = value
-                                    endTile?.removeFromSuperview()
-                                    if !shouldPop || !finished {
-                                        return
-                                    }
-                                    tile.layer.setAffineTransform(CGAffineTransformMakeScale(self.tileMergeStartScale, self.tileMergeStartScale))
-                                    UIView.animateWithDuration(self.tileMergeExpandTime,
-                                                               animations: {
-                                                                tile.layer.setAffineTransform(CGAffineTransformMakeScale(self.tilePopMaxScale, self.tilePopMaxScale))
-                                    },
-                                                               completion: { finished in
-                                                                UIView.animateWithDuration(self.tileMergeContractTime) {
-                                                                    tile.layer.setAffineTransform(CGAffineTransformIdentity)
-                                                                }
-                                    })
-        })
-    }
-    //将from里两个位置的数字块移动到to位置，并赋予新的值，原理同上
-    func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int) {
-        assert(positionIsValid(pos: from.0) && positionIsValid(pos: from.1) && positionIsValid(pos: to))
-        let (fromRowA, fromColA) = from.0
-        let (fromRowB, fromColB) = from.1
-        let (toRow, toCol) = to
-        let fromKeyA = IndexPath(row: fromRowA, section: fromColA)
-        let fromKeyB = IndexPath(row: fromRowB, section: fromColB)
-        let toKey = IndexPath(row: toRow, section: toCol)
-        
-        guard let tileA = tiles[fromKeyA] else {
-            assert(false, "placeholder error")
-        }
-        guard let tileB = tiles[fromKeyB] else {
-            assert(false, "placeholder error")
-        }
-        
-        var finalFrame = tileA.frame
-        finalFrame.origin.x = tilePadding + CGFloat(toRow)*(tileWidth + tilePadding)
-        finalFrame.origin.y = tilePadding + CGFloat(toCol)*(tileWidth + tilePadding)
-        
-        let oldTile = tiles[toKey]
-        oldTile?.removeFromSuperview()
-        tiles.removeValueForKey(fromKeyA)
-        tiles.removeValueForKey(fromKeyB)
-        tiles[toKey] = tileA
-        
-        UIView.animateWithDuration(perSquareSlideDuration,
-                                   delay: 0.0,
-                                   options: UIViewAnimationOptions.BeginFromCurrentState,
-                                   animations: {
-                                    tileA.frame = finalFrame
-                                    tileB.frame = finalFrame
-        },
-                                   completion: { finished in
-                                    //赋值
-                                    tileA.value = value
-                                    tileB.removeFromSuperview()
-                                    if !finished {
-                                        return
-                                    }
-                                    tileA.layer.setAffineTransform(CGAffineTransformMakeScale(self.tileMergeStartScale, self.tileMergeStartScale))
-                                    UIView.animateWithDuration(self.tileMergeExpandTime,
-                                                               animations: {
-                                                                tileA.layer.setAffineTransform(CGAffineTransformMakeScale(self.tilePopMaxScale, self.tilePopMaxScale))
-                                    },
-                                                               completion: { finished in
-                                                                UIView.animateWithDuration(self.tileMergeContractTime) {
-                                                                    tileA.layer.setAffineTransform(CGAffineTransformIdentity)
-                                                                }
-                                    })
-        })
-    }
+
     
     func positionIsValid(pos: (Int, Int)) -> Bool {
         let (x, y) = pos
         return (x >= 0 && x < dimension && y >= 0 && y < dimension)
     }
-    
-    func getEmptyPosition() -> [(Int , Int)]  {
-        var emptyArrys : [(Int , Int)] = []
-        for i in 0..<dimension {
-            for j in 0..<dimension {
-                if case .Empty = gamebord[i , j] {
-                    emptyArrys.append((i , j))
-                }
-            }
-        }
-        return emptyArrys
-    }
-    
-    func insertRandomPositoinTile(value : Int)  {
-        let emptyArrays = getEmptyPosition()
-        if emptyArrays.isEmpty {
-            return
-        }
-        let randomPos = Int(arc4random_uniform(UInt32(emptyArrays.count - 1)))
-        let (x , y) = emptyArrays[randomPos]
-        gamebord[x, y] = TileEnum.Tile(value)
-        delegate.insertTile(position: (x , y), value: value)
-    }
+   
   
     func merge(group : [TileEnum]) -> [MoveOrder] {
-        return convert(collapse(condense(group)))
+//        return convert(collapse(condense(group)))
+        return convert(group: collapse(group: condense(group: group)))
     }
     
     //去除空   如：| | |2|2|去掉空为：|2|2| | |
@@ -258,7 +164,7 @@ class GameModle : NSObject {
         var tokenBuffer = [TileAction]()
         //是否跳过下一个，如果把下一个块合并过来，则下一个数字块应该跳过
         var skipNext = false
-        for (idx, token) in group.enumerate() {
+        for (idx, token) in group.enumerated() {
             if skipNext {
                 skipNext = false
                 continue
@@ -268,7 +174,7 @@ class GameModle : NSObject {
             case let .NOACTION(s, v)
                 where (idx < group.count-1
                     && v == group[idx+1].getValue()
-                    && GameModle.quiescentTileStillQuiescent(idx, outputLength: tokenBuffer.count, originalPosition: s)):
+                    && GameModle.quiescentTileStillQuiescent(inputPosition: idx, outputLength: tokenBuffer.count, originalPosition: s)):
                 let next = group[idx+1]
                 let nv = v + group[idx+1].getValue()
                 skipNext = true
@@ -280,7 +186,7 @@ class GameModle : NSObject {
                 skipNext = true
                 tokenBuffer.append(TileAction.DOUBLECOMBINE(firstSource: t.getSource(), secondSource: next.getSource(), value: nv))
             //上一步判定不需要移动，但是之前的块有合并过，所以需要移动
-            case let .NOACTION(s, v) where !GameModle.quiescentTileStillQuiescent(idx, outputLength: tokenBuffer.count, originalPosition: s):
+            case let .NOACTION(s, v) where !GameModle.quiescentTileStillQuiescent(inputPosition: idx, outputLength: tokenBuffer.count, originalPosition: s):
                 tokenBuffer.append(TileAction.MOVE(source: s, value: v))
             //上一步判定不需要移动，且之前的块也没有合并，则不需要移动
             case let .NOACTION(s, v):
@@ -302,7 +208,7 @@ class GameModle : NSObject {
     //转换为MOVEORDER便于后续处理
     func convert(group : [TileAction]) -> [MoveOrder] {
         var buffer = [MoveOrder]()
-        for (idx , tileAction) in group.enumerate() {
+        for (idx , tileAction) in group.enumerated() {
             switch tileAction {
             case let .MOVE(s, v) :
                 //单纯的将一个块由s位置移动到idx位置，新值为v
