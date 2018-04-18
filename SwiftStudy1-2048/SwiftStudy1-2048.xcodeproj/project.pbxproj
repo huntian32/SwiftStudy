@@ -19,6 +19,8 @@
 		FB5BC5892085D84C00030F58 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5BC5882085D84C00030F58 /* ScoreView.swift */; };
 		FB5BC58B2085DC8600030F58 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5BC58A2085DC8600030F58 /* TileView.swift */; };
 		FB5BC58D2085DDB700030F58 /* ApperanceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5BC58C2085DDB700030F58 /* ApperanceProvider.swift */; };
+		FB623B9320871DA1000D8796 /* BaseModle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB623B9220871DA1000D8796 /* BaseModle.swift */; };
+		FB623B9520871E60000D8796 /* GameModle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB623B9420871E60000D8796 /* GameModle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		FB5BC5882085D84C00030F58 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		FB5BC58A2085DC8600030F58 /* TileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileView.swift; sourceTree = "<group>"; };
 		FB5BC58C2085DDB700030F58 /* ApperanceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApperanceProvider.swift; sourceTree = "<group>"; };
+		FB623B9220871DA1000D8796 /* BaseModle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModle.swift; sourceTree = "<group>"; };
+		FB623B9420871E60000D8796 /* GameModle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +114,8 @@
 				FB06694A20848A58007F8E0B /* AppDelegate.swift */,
 				FB06694C20848A58007F8E0B /* ViewController.swift */,
 				FB06697A208490DB007F8E0B /* GamebordView.swift */,
+				FB623B9220871DA1000D8796 /* BaseModle.swift */,
+				FB623B9420871E60000D8796 /* GameModle.swift */,
 				FB06694E20848A58007F8E0B /* Main.storyboard */,
 				FB06697820848B0A007F8E0B /* NumbertailGameController.swift */,
 				FB5BC5882085D84C00030F58 /* ScoreView.swift */,
@@ -277,6 +283,8 @@
 				FB5BC58D2085DDB700030F58 /* ApperanceProvider.swift in Sources */,
 				FB06697920848B0A007F8E0B /* NumbertailGameController.swift in Sources */,
 				FB5BC58B2085DC8600030F58 /* TileView.swift in Sources */,
+				FB623B9520871E60000D8796 /* GameModle.swift in Sources */,
+				FB623B9320871DA1000D8796 /* BaseModle.swift in Sources */,
 				FB5BC5892085D84C00030F58 /* ScoreView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

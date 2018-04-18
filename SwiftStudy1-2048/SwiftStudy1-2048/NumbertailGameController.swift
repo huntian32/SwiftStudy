@@ -7,7 +7,12 @@
 //
 
 import UIKit
-
+protocol GameModelProtocol : class {
+    func changeScore(score : Int)
+    func insertTile(position : (Int , Int), value : Int)
+    func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int)
+    func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int)
+}
 
 class NumbertailGameController : UIViewController {
     var demension : Int  //2048游戏中每行每列含有多少个块
@@ -17,13 +22,118 @@ class NumbertailGameController : UIViewController {
     let viewPadding: CGFloat = 10.0  //计分板和游戏区块的间距
     let verticalViewOffset: CGFloat = 0.0  //一个初始化属性，后面会有地方用到
     var bord : GamebordView?
+    var gameModle : GameModle?
     
     init(demension d : Int , threshold t : Int) {
         demension = d < 2 ? 2 : d
         threshold = t < 8 ? 8 : t
         super.init(nibName: nil, bundle: nil)
         view.backgroundColor = UIColor(red : 0xE6/255, green : 0xE2/255, blue : 0xD4/255, alpha : 1)
+        gameModle = GameModle(dimension: demension , threshold: threshold , delegate: self as! GameModelProtocol )
+        setupSwipeConttoller()
     }
+    
+    //注册监听器，监听当前视图里的手指滑动操作，上下左右分别对应下面的四个方法
+    func setupSwipeConttoller() {
+        let upSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.upCommand(_:)))
+        upSwipe.numberOfTouchesRequired = 1
+        upSwipe.direction = UISwipeGestureRecognizerDirection.Up
+        view.addGestureRecognizer(upSwipe)
+        
+        let downSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.downCommand(_:)))
+        downSwipe.numberOfTouchesRequired = 1
+        downSwipe.direction = UISwipeGestureRecognizerDirection.Down
+        view.addGestureRecognizer(downSwipe)
+        
+        let leftSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.leftCommand(_:)))
+        leftSwipe.numberOfTouchesRequired = 1
+        leftSwipe.direction = UISwipeGestureRecognizerDirection.Left
+        view.addGestureRecognizer(leftSwipe)
+        
+        let rightSwipe = UISwipeGestureRecognizer(target: self , action: #selector(NumbertailGameController.rightCommand(_:)))
+        rightSwipe.numberOfTouchesRequired = 1
+        rightSwipe.direction = UISwipeGestureRecognizerDirection.Right
+        view.addGestureRecognizer(rightSwipe)
+    }
+    //向上滑动的方法，调用queenMove，传入MoveDirection.UP
+    func upCommand(r : UIGestureRecognizer) {
+        let m = gameModle!
+        m.queenMove(MoveDirection.UP , completion: { (changed : Bool) -> () in
+            if  changed {
+                self.followUp()
+            }
+        })
+    }
+    //向下滑动的方法，调用queenMove，传入MoveDirection.DOWN
+    func downCommand(r : UIGestureRecognizer) {
+        let m = gameModle!
+        m.queenMove(MoveDirection.DOWN , completion: { (changed : Bool) -> () in
+            if  changed {
+                self.followUp()
+            }
+        })
+    }
+    //向左滑动的方法，调用queenMove，传入MoveDirection.LEFT
+    func leftCommand(r : UIGestureRecognizer) {
+        let m = gameModle!
+        m.queenMove(MoveDirection.LEFT , completion: { (changed : Bool) -> () in
+            if  changed {
+                self.followUp()
+            }
+        })
+    }
+    //向右滑动的方法，调用queenMove，传入MoveDirection.RIGHT
+    func rightCommand(r : UIGestureRecognizer) {
+        let m = gameModle!
+        m.queenMove(MoveDirection.RIGHT , completion: { (changed : Bool) -> () in
+            if  changed {
+                self.followUp()
+            }
+        })
+    }
+    //移动之后需要判断用户的输赢情况，如果赢了则弹框提示，给一个重玩和取消按钮
+    func followUp() {
+        assert(gameModle != nil)
+        let m = gameModle!
+        let (userWon, _) = m.userHasWon()
+        if userWon {
+            let winAlertView = UIAlertController(title: "結果", message: "你贏了", preferredStyle: UIAlertControllerStyle.alert)
+            let resetAction = UIAlertAction(title: "重置", style: UIAlertActionStyle.default, handler: {(u : UIAlertAction) -> () in
+                self.reset()
+            })
+            winAlertView.addAction(resetAction)
+            let cancleAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.default, handler: nil)
+            winAlertView.addAction(cancleAction)
+            self.present(winAlertView, animated: true, completion: nil)
+            return
+        }
+        //如果没有赢则需要插入一个新的数字块
+        let randomVal = Int(arc4random_uniform(10))
+        m.insertRandomPositoinTile(value: randomVal == 1 ? 4 : 2)
+        //插入数字块后判断是否输了，输了则弹框提示
+        if m.userHasLost() {
+            NSLog("You lost...")
+            let lostAlertView = UIAlertController(title: "結果", message: "你輸了", preferredStyle: UIAlertControllerStyle.alert)
+            let resetAction = UIAlertAction(title: "重置", style: UIAlertActionStyle.default, handler: {(u : UIAlertAction) -> () in
+                self.reset()
+            })
+            lostAlertView.addAction(resetAction)
+            let cancleAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.default, handler: nil)
+            lostAlertView.addAction(cancleAction)
+            self.present(lostAlertView, animated: true, completion: nil)
+        }
+    }
+    
+    func reset() {
+        assert(bord != nil && gameModle != nil)
+        let b = bord!
+        let m = gameModle!
+       // b.reset()
+       // m.reset()
+        m.insertRandomPositoinTile(value: 2)
+        m.insertRandomPositoinTile(value: 2)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +209,12 @@ class NumbertailGameController : UIViewController {
 
         gamebord.insertTile(pos: (3,1) , value : 2)
         gamebord.insertTile(pos: (1,3) , value : 2)
+        
+        assert(gameModle != nil)
+        let modle = gameModle!
+        modle.insertRandomPositoinTile(value: 2)
+        modle.insertRandomPositoinTile(value: 2)
+        modle.insertRandomPositoinTile(value: 2)
     }
     
     func insertTile(pos : (Int , Int) , value : Int){
