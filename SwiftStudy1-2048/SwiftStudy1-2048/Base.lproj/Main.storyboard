@@ -19,12 +19,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5hO-kn-Ttp">
-                                <rect key="frame" x="132" y="433" width="111" height="71"/>
+                                <rect key="frame" x="150" y="522" width="74" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="开始游戏"/>
                                 <connections>
                                     <action selector="setupGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bNu-cT-oPj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mdf-9p-urL">
+                                <rect key="frame" x="150" y="318" width="74" height="71"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="选项"/>
+                                <connections>
+                                    <action selector="selectButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zOq-i9-Vfc"/>
                                 </connections>
                             </button>
                         </subviews>

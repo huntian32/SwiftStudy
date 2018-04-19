@@ -210,8 +210,8 @@ class NumbertailGameController : UIViewController , GameModelProtocol{
         view.addSubview(bord!)
         view.addSubview(scoreView)
 
-        bord?.insertTile(position: (3,1) , value : 2)
-        bord?.insertTile(position: (1,3) , value : 2)
+//        bord?.insertTile(position: (3,1) , value : 2)
+//        bord?.insertTile(position: (1,3) , value : 2)
         
         scoreView.scoreChanged(newScore: 0)
         
