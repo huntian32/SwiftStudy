@@ -31,20 +31,6 @@ class NumbertailGameController : UIViewController , GameModelProtocol{
         super.init(nibName: nil, bundle: nil)
         view.backgroundColor = UIColor(red : 0xE6/255, green : 0xE2/255, blue : 0xD4/255, alpha : 1)
 
-//        bord = GamebordView(
-//            demension : d,
-//            titleWidth: 61.25,
-//            titlePadding: thinPadding,
-//            backgroundColor:UIColor(red : 0x90/255, green : 0x8D/255, blue : 0x80/255, alpha : 1),
-//            foregroundColor:UIColor(red : 0xF9/255, green : 0xF9/255, blue : 0xE3/255, alpha : 0.5)
-//        )
-
-        gameModle = GameModle(dimension: dimension, threshold: threshold, delegate: self)
-
-
-        setupSwipeConttoller()
-        
-        
     }
     
     //注册监听器，监听当前视图里的手指滑动操作，上下左右分别对应下面的四个方法
@@ -151,8 +137,9 @@ class NumbertailGameController : UIViewController , GameModelProtocol{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        gameModle = GameModle(dimension: dimension, threshold: threshold, delegate: self)
+        setupSwipeConttoller()
         setupGame()
-        
     }
     
     
@@ -184,7 +171,7 @@ class NumbertailGameController : UIViewController , GameModelProtocol{
         //获取具体每一个区块的边长，即：(游戏区块长度-间隙总和)/块数
         let width = (boardWidth - thinPadding*CGFloat(dimension + 1))/CGFloat(dimension)
         //初始化一个游戏区块对象
-        let gamebord = GamebordView(
+            bord = GamebordView(
             dimension : dimension,
             titleWidth: width,
             titlePadding: thinPadding,
@@ -199,30 +186,32 @@ class NumbertailGameController : UIViewController , GameModelProtocol{
             font: UIFont(name: "HelveticaNeue-Bold", size: 16.0) ?? UIFont.systemFont(ofSize: 16.0)
         )
         
+        scoreV = scoreView
         //现在面板中所有的视图对象，目前只有游戏区块，后续加入计分板
-        let views = [scoreView , gamebord]
+        let views = [scoreView , bord]
         //设置游戏区块在整个面板中的的绝对位置，即左上角第一个点
-        var f = gamebord.frame
-        f.origin.x = xposition2Center(view: gamebord)
-        f.origin.y = yposition2Center(order: 0, views: views)
+        var f = bord?.frame
+        f?.origin.x = xposition2Center(view: bord!)
+        f?.origin.y = yposition2Center(order: 0, views: views as! [UIView])
         let backgroundColor = UIColor(red : 0x90/255, green : 0x8D/255, blue : 0x80/255, alpha : 1),
         foregroundColor = UIColor(red : 0xF9/255, green : 0xF9/255, blue : 0xE3/255, alpha : 0.5)
-        gamebord.setColor(backgroundColor: backgroundColor, foregroundColor: foregroundColor)
-        gamebord.frame = f
+        bord?.setColor(backgroundColor: backgroundColor, foregroundColor: foregroundColor)
+        bord?.frame = f!
         
+//        bord = gamebord
         //定位记分板在主面板中左上角的绝对位置
         var f1 = scoreView.frame
         f1.origin.x = xposition2Center(view: scoreView)
-        f1.origin.y = yposition2Center(order: 0, views: views) - 50
+        f1.origin.y = yposition2Center(order: 0, views: views as! [UIView]) - 50
         scoreView.frame = f1
         //调用其自身方法来初始化一个分数
         scoreView.scoreChanged(newScore: 19870606)
          //将游戏对象加入当前面板中
-        view.addSubview(gamebord)
+        view.addSubview(bord!)
         view.addSubview(scoreView)
 
-        gamebord.insertTile(position: (3,1) , value : 2)
-        gamebord.insertTile(position: (1,3) , value : 2)
+        bord?.insertTile(position: (3,1) , value : 2)
+        bord?.insertTile(position: (1,3) , value : 2)
         
         scoreView.scoreChanged(newScore: 0)
         
