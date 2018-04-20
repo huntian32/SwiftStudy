@@ -24,13 +24,15 @@ class NumbertailGameController : UIViewController , GameModelProtocol{
     var bord : GamebordView?
     var scoreV : ScoreView?
     var gameModle : GameModle?
+    var changeNumber : Dictionary<Int, String>
     
-    init(dimension d : Int , threshold t : Int) {
+    init(dimension d : Int , threshold t : Int , changeNumber : Dictionary<Int, String>) {
         dimension = d < 2 ? 2 : d
         threshold = t < 8 ? 8 : t
+        self.changeNumber = changeNumber
         super.init(nibName: nil, bundle: nil)
         view.backgroundColor = UIColor(red : 0xE6/255, green : 0xE2/255, blue : 0xD4/255, alpha : 1)
-
+        
     }
     
     //注册监听器，监听当前视图里的手指滑动操作，上下左右分别对应下面的四个方法
@@ -175,8 +177,9 @@ class NumbertailGameController : UIViewController , GameModelProtocol{
             dimension : dimension,
             titleWidth: width,
             titlePadding: thinPadding,
-            backgroundColor:UIColor(red : 0x90/255, green : 0x8D/255, blue : 0x80/255, alpha : 1),
-            foregroundColor:UIColor(red : 0xF9/255, green : 0xF9/255, blue : 0xE3/255, alpha : 0.5)
+            backgroundColor : UIColor(red : 0x90/255, green : 0x8D/255, blue : 0x80/255, alpha : 1),
+            foregroundColor : UIColor(red : 0xF9/255, green : 0xF9/255, blue : 0xE3/255, alpha : 0.5),
+            changeNumber : changeNumber
         )
         
         //初始化一个ScoreView

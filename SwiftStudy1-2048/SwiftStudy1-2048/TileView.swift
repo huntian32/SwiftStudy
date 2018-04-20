@@ -24,8 +24,8 @@ class TileView : UIView{
     //一个数字块也就是一个lable
     var lable : UILabel
     
-    init(position : CGPoint, width : CGFloat, value : Int, delegate d: AppearanceProviderProtocol){
-        changeNumber = [2:"我",4:"爱",8:"宝宝叫朱",16:"16"]
+    init(position : CGPoint, width : CGFloat, value : Int, delegate d: AppearanceProviderProtocol, changeNumber :Dictionary<Int,String>){
+        self.changeNumber = changeNumber
         delegate = d
         lable = UILabel(frame : CGRect(x:0 , y:0 , width:width , height:width))
         lable.textAlignment = NSTextAlignment.center

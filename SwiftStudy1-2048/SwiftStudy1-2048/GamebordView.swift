@@ -19,14 +19,15 @@ class GamebordView : UIView {
     let tilePopStartScale: CGFloat = 0.1
     let tilePopMaxScale: CGFloat = 1.1
     let perSquareSlideDuration: TimeInterval = 0.08
+    var changeNumber:Dictionary<Int,String>
     
     
     
     //初始化，其中backgroundColor是游戏区块的背景色，foregroundColor是小块的颜色
-    init(dimension d : Int, titleWidth width : CGFloat, titlePadding padding : CGFloat, backgroundColor : UIColor, foregroundColor : UIColor ) {
+    init(dimension d : Int, titleWidth width : CGFloat, titlePadding padding : CGFloat, backgroundColor : UIColor, foregroundColor : UIColor , changeNumber:Dictionary<Int,String>) {
         
         self.tiles = Dictionary<NSIndexPath, TileView>()
-        
+        self.changeNumber = changeNumber
         dimension = d
         tileWidth = width
         tilePadding = padding
@@ -60,7 +61,7 @@ class GamebordView : UIView {
         //取出当前数字块的左上角坐标(相对于游戏区块)
         let x = tilePadding + CGFloat(row)*(tilePadding + tileWidth)
         let y = tilePadding + CGFloat(col)*(tilePadding + tileWidth)
-        let tileView = TileView(position : CGPoint(x:x, y:y), width: tileWidth, value: value, delegate: provider)
+        let tileView = TileView(position : CGPoint(x:x, y:y), width: tileWidth, value: value, delegate: provider, changeNumber :changeNumber)
         addSubview(tileView)
         bringSubview(toFront: tileView)
         
