@@ -18,19 +18,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5hO-kn-Ttp">
-                                <rect key="frame" x="150" y="522" width="74" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="多种显示形式的2048" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7sU-09-zNU">
+                                <rect key="frame" x="106.5" y="265.5" width="162.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5hO-kn-Ttp">
+                                <rect key="frame" x="150.5" y="316" width="74" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="开始游戏"/>
                                 <connections>
-                                    <action selector="setupGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bNu-cT-oPj"/>
+                                    <action selector="setupGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NUO-Ta-qjf"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="5hO-kn-Ttp" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="AIs-zh-6aq"/>
+                            <constraint firstItem="5hO-kn-Ttp" firstAttribute="centerX" secondItem="7sU-09-zNU" secondAttribute="centerX" id="N4N-Qq-yqU"/>
+                            <constraint firstItem="5hO-kn-Ttp" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="k3l-0V-HOy"/>
+                            <constraint firstItem="5hO-kn-Ttp" firstAttribute="top" secondItem="7sU-09-zNU" secondAttribute="bottom" constant="30" id="tXl-Un-ZMB"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="setupGameBtn" destination="5hO-kn-Ttp" id="88e-p7-0az"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

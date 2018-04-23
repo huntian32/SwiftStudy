@@ -7,6 +7,8 @@
 //
 
 import UIKit
+
+
 protocol GameModelProtocol : class {
     func changeScore(score : Int)
     func insertTile(position : (Int , Int), value : Int)
@@ -101,7 +103,8 @@ class NumbertailGameController : UIViewController , GameModelProtocol{
         if userWon {
             let winAlertView = UIAlertController(title: "結果", message: "你贏了", preferredStyle: UIAlertControllerStyle.alert)
             let resetAction = UIAlertAction(title: "重置", style: UIAlertActionStyle.default, handler: {(u : UIAlertAction) -> () in
-                self.reset()
+//                self.reset()
+                self.dismiss(animated: true, completion: nil)
             })
             winAlertView.addAction(resetAction)
             let cancleAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.default, handler: nil)
@@ -110,14 +113,16 @@ class NumbertailGameController : UIViewController , GameModelProtocol{
             return
         }
         //如果没有赢则需要插入一个新的数字块
-        let randomVal = Int(arc4random_uniform(10))
+        let randomVal = Int(arc4random_uniform(5))
         m.insertRandomPositoinTile(value: randomVal == 1 ? 4 : 2)
         //插入数字块后判断是否输了，输了则弹框提示
         if m.userHasLost() {
             NSLog("You lost...")
             let lostAlertView = UIAlertController(title: "結果", message: "你輸了", preferredStyle: UIAlertControllerStyle.alert)
             let resetAction = UIAlertAction(title: "重置", style: UIAlertActionStyle.default, handler: {(u : UIAlertAction) -> () in
-                self.reset()
+                //self.reset()
+                self.dismiss(animated: true, completion: nil)
+
             })
             lostAlertView.addAction(resetAction)
             let cancleAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.default, handler: nil)
@@ -223,7 +228,43 @@ class NumbertailGameController : UIViewController , GameModelProtocol{
         modle.insertRandomPositoinTile(value: 2)
         modle.insertRandomPositoinTile(value: 2)
         modle.insertRandomPositoinTile(value: 2)
+        
+        //x
+        let resetBtnWidth:CGFloat = 140
+        let resetBtnHeight:CGFloat = 40
+        
+       
+        let resetBtnX:CGFloat = (UIScreen.main.bounds.size.width - resetBtnWidth) * 0.5
+        let resetBtnY:CGFloat = (bord?.frame.origin.y)! + (bord?.frame.size.height)!+10
+        
+        let resetButtonRect = CGRect(x: resetBtnX, y: resetBtnY, width: resetBtnWidth, height: resetBtnHeight)
+        let resetButton = UIButton.quickCreateButton(title: "RESET GAME",frame: resetButtonRect)
+        self.view.addSubview(resetButton)
+//        resetButton.setTitle("RESET GAME", for: .normal)
+//        resetButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 16.0) ?? UIFont.systemFont(ofSize: 16.0)
+//        resetButton.backgroundColor = gameButtonBackgroundColor
+//        //        resetButton.tintColor = UIColor(red : 0xF3/255, green : 0xF1/255, blue : 0x1A/255, alpha : 0.5)
+//        resetButton.setTitleColor(UIColor(red : 0xF3/255, green : 0xF1/255, blue : 0x1A/255, alpha : 0.5), for: .normal)
+        resetButton.addTarget(self, action: #selector(resetBtnClick), for: .touchUpInside)
+        
+//        let xxx:UIButton = UIButton.qui
     }
+    
+    @objc func resetBtnClick(){
+        let winAlertView = UIAlertController(title: "警告", message: "你确定要重新开始游戏吗", preferredStyle: UIAlertControllerStyle.alert)
+        let resetAction = UIAlertAction(title: "重新开始", style: UIAlertActionStyle.default, handler: {(u : UIAlertAction) -> () in
+            //                self.reset()
+            self.dismiss(animated: true, completion: nil)
+        })
+        winAlertView.addAction(resetAction)
+        let cancleAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.default, handler: nil)
+        winAlertView.addAction(cancleAction)
+        self.present(winAlertView, animated: true, completion: nil)
+        
+        
+       // self.dismiss(animated: true, completion: nil)
+    }
+    
     func changeScore(score : Int){
         assert(scoreV != nil)
         let s =  scoreV!

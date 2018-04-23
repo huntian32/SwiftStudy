@@ -22,6 +22,8 @@
 		FB2E6D26208768630024A136 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5BC58A2085DC8600030F58 /* TileView.swift */; };
 		FB2E6D27208768660024A136 /* ApperanceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5BC58C2085DDB700030F58 /* ApperanceProvider.swift */; };
 		FB8130482089B90A0065BD58 /* TGDropBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8130472089B90A0065BD58 /* TGDropBoxView.swift */; };
+		FBF5ED7B208A130400F96B26 /* HTButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF5ED7A208A130400F96B26 /* HTButton.swift */; };
+		FBF5ED7D208A175300F96B26 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF5ED7C208A175300F96B26 /* Global.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,8 @@
 		FB623B9220871DA1000D8796 /* BaseModle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModle.swift; sourceTree = "<group>"; };
 		FB623B9420871E60000D8796 /* GameModle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModle.swift; sourceTree = "<group>"; };
 		FB8130472089B90A0065BD58 /* TGDropBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGDropBoxView.swift; sourceTree = "<group>"; };
+		FBF5ED7A208A130400F96B26 /* HTButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTButton.swift; sourceTree = "<group>"; };
+		FBF5ED7C208A175300F96B26 /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,12 +119,14 @@
 			children = (
 				FB06694A20848A58007F8E0B /* AppDelegate.swift */,
 				FB06694C20848A58007F8E0B /* ViewController.swift */,
+				FBF5ED7C208A175300F96B26 /* Global.swift */,
 				FB8130472089B90A0065BD58 /* TGDropBoxView.swift */,
 				FB06697A208490DB007F8E0B /* GamebordView.swift */,
 				FB623B9220871DA1000D8796 /* BaseModle.swift */,
 				FB623B9420871E60000D8796 /* GameModle.swift */,
 				FB06694E20848A58007F8E0B /* Main.storyboard */,
 				FB06697820848B0A007F8E0B /* NumbertailGameController.swift */,
+				FBF5ED7A208A130400F96B26 /* HTButton.swift */,
 				FB5BC5882085D84C00030F58 /* ScoreView.swift */,
 				FB5BC58A2085DC8600030F58 /* TileView.swift */,
 				FB5BC58C2085DDB700030F58 /* ApperanceProvider.swift */,
@@ -288,6 +294,8 @@
 				FB2E6D232087685A0024A136 /* ViewController.swift in Sources */,
 				FB2E6D22208768510024A136 /* ScoreView.swift in Sources */,
 				FB2E6D212087684E0024A136 /* GameModle.swift in Sources */,
+				FBF5ED7D208A175300F96B26 /* Global.swift in Sources */,
+				FBF5ED7B208A130400F96B26 /* HTButton.swift in Sources */,
 				FB2E6D20208768490024A136 /* GamebordView.swift in Sources */,
 				FB2E6D1F208768460024A136 /* AppDelegate.swift in Sources */,
 			);
